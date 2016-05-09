@@ -1,10 +1,6 @@
 package com.authy.api;
 
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.Map;
+import org.apache.log4j.Logger;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -13,6 +9,11 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.transform.stream.StreamSource;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -20,6 +21,7 @@ import javax.xml.transform.stream.StreamSource;
  *
  */
 public class Users extends Resource {
+	public static final Logger LOGGER = Logger.getLogger(Users.class.getName());
 	public static final String NEW_USER_PATH = "/protected/xml/users/new";
 	public static final String DELETE_USER_PATH = "/protected/xml/users/delete/";
 	public static final String SMS_PATH = "/protected/xml/sms/";
@@ -128,7 +130,9 @@ public class Users extends Resource {
 			user.setError(error);
 		}
 		catch(JAXBException e) {
-			e.printStackTrace();
+      if (LOGGER.isDebugEnabled()){
+        LOGGER.debug("Authy Error Parsing XML.", e);
+      }
 		}
 		return user;
 	}
@@ -164,7 +168,9 @@ public class Users extends Resource {
 			hash.setError(error);
 		}
 		catch(JAXBException e) {
-			e.printStackTrace();
+      if (LOGGER.isDebugEnabled()){
+        LOGGER.debug("Authy Error Parsing XML.", e);
+      }
 		}
 		return hash;
 	}
